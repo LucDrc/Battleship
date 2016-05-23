@@ -3,20 +3,66 @@
  */
 
 
-var model =
+battleship();
+
+function battleship()
 {
-    boardSize: 10,
-    numShips: 3,
-    shipLength: 3,
-    shipsSunk: 0,
+    var boardSize = 10;
+    var numShips = 5;
+    var shipLength = [2, 3, 3, 4, 5];
+    var shipsSunk = 0;
 
-    ships: [
-        {locations: [0, 0, 0], hits: ["", "", ""]},
-        {locations: [0, 0, 0], hits: ["", "", ""]},
-        {locations: [0, 0, 0], hits: ["", "", ""]}
-    ],
+    var userOneBoard = {board : new Array(),
+                        carrier : new Array(),
+                        battleship: new Array(),
+                        destroyer : new Array(),
+                        submarine : new Array(),
+                        patrol_boat : new Array(),
+    };
 
-    fire: function (guess) {
+    var userTwoBoard = {board : new Array(),
+                        carrier : new Array(),
+                        battleship: new Array(),
+                        destroyer : new Array(),
+                        submarine : new Array(),
+                        patrol_boat : new Array(),
+    };
+
+    var singleplayer = true;
+
+    for (var x = 0; x < boardSize; x++){
+        userOneBoard.board[x] = new Array();
+        userTwoBoard.board[x] = new Array();
+        for (var d = 0; d < boardSize; d++){
+            userOneBoard.board[x][d] = 0;
+            userTwoBoard.board[x][d] = 0;
+
+        }
+    }
+
+    var shipsArray = ["Carrier", "Battleship", "Destroyer", "Submarine", "Patrol Boat"];
+
+    for (var y = 0; y < 5; y++){
+
+        var questionStr = "What ship do you want to place down:";
+
+        for(var z = 0; z < shipsArray.length; z++){
+            questionStr += "\n" + (z + 1) + ". " + shipsArray[z];
+        }
+
+        var shipNum = 0;
+
+        var readline = require('readline');
+        var rl = readline.createInterface(process.stdin, process.stdout);
+        rl.setPrompt(questionStr);
+        rl.prompt();
+        rl.on
+
+        shipsArray.splice(shipNum - 1, 1);
+    }
+
+
+    function user_guess(guess) {
         for (var i = 0; i < this.numShips; i++) {
             var ship = this.ships[i];
             var index = ship.locations.indexOf(guess);
@@ -39,18 +85,18 @@ var model =
         view.displayMiss(guess);
         view.displayMessage("You Missed");
         return false;
-    },
+    }
 
-    isSunk: function (ship) {
-        for (var i = 0; i < this.shipLength, i++) {
+    function shipIsSunk(ship) {
+        for (var i = 0; i < this.shipLength; i++) {
             if (ship.hits[i] !== "hit") {
                 return false;
             }
         }
         return true;
-    },
+    }
 
-    generateShipLocations: function () {
+    function generateLocation() {
         var locations;
         for (var i = 0; i < this.numShips; i++) {
             do {
@@ -58,9 +104,9 @@ var model =
             } while (this.collision(locations));
             this.ships[i].locations = locations;
         }
-    },
+    }
 
-    generateShip: function () {
+    function generateShip() {
         var direction = Math.floor((Math.random() * 2));
         var row, col;
 
@@ -83,9 +129,9 @@ var model =
             }
         }
         return newShipLocations;
-    },
+    }
 
-    collision: function (locations) {
+    function overlap(locations) {
         for (var i = 0; i < this.numShips; i++) {
             var ship = this.ships[i];
             for (var j = 0; j < locations.length; j++) {
@@ -96,7 +142,7 @@ var model =
         }
         return false;
     }
-};
+}
 
     var view = {
     displayMessage: function(msg) {
@@ -123,7 +169,7 @@ var controller = {
             this.guesses++;
             var hit = model.fire(location);
             if(hit && model.shipsSunk === model.numShips) {
-                view.displayMessage("You sanke all my battleships, in " +
+                view.displayMessage("You sank all my battleships, in " +
                     this.guesses + " guesses");
             }
         }
