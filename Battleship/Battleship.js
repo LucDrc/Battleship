@@ -52,11 +52,9 @@ function battleship()
 
         var shipNum = 0;
 
-        var readline = require('readline');
-        var rl = readline.createInterface(process.stdin, process.stdout);
-        rl.setPrompt(questionStr);
-        rl.prompt();
-        rl.on
+        var query = require('cli-interact').getYesNo;
+        var answer = query('Is it true');
+        console.log('you answered:', answer);
 
         shipsArray.splice(shipNum - 1, 1);
     }
