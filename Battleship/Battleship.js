@@ -41,22 +41,75 @@ function battleship()
     }
 
     var shipsArray = ["Carrier", "Battleship", "Destroyer", "Submarine", "Patrol Boat"];
+    var shipsDictionary = {"Carrier" : 5,
+                            "Battleship" : 4,
+                            "Destroyer" : 3,
+                            "Submarine" : 3,
+                            "Patrol Boat" : 2};
 
-    for (var y = 0; y < 5; y++){
+    var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
-        var questionStr = "What ship do you want to place down:";
+    var testShipPositions = ["F5:Right", "A6:Right", "B1:Down", "G3:Right", "F1:Down"];
 
-        for(var z = 0; z < shipsArray.length; z++){
-            questionStr += "\n" + (z + 1) + ". " + shipsArray[z];
+    var shipNum = 0;
+
+    for(var d = 0; d < 5; d++){
+
+        shipNum = d;
+
+        console.log(shipsArray[d]);
+
+        placeShips(shipsArray[d]);
+
+
+    }
+
+    function placeShips(shipType){
+
+        var startPoint = testShipPositions[shipNum].split(":")[0];
+        var direction = testShipPositions[shipNum].split(":")[1];
+        var yAxis = alphabet.indexOf(startPoint.split("")[0]);
+        var xAxis = startPoint.split("")[1];
+        var endPoint = "";
+
+        if(direction == "Up" || direction == "Down"){
+            console.log("Direction == " + direction);
+            if(direction == "Up"){
+                console.log("Up: " + alphabet[yAxis - shipsDictionary[shipType]].stringValue);
+                endPoint = alphabet[yAxis - shipsDictionary[shipType]] + xAxis;
+            }
+            else if(direction == "Down"){
+                console.log("Down: " + alphabet[yAxis - shipsDictionary[shipType]].stringValue);
+                endPoint = alphabet[yAxis - shipsDictionary[shipType]] + xAxis;
+            }
+            else{
+                console.log("Else 3");
+            }
+        }
+        else if(direction == "Left" || direction == "Right"){
+            console.log("Direction == " + direction);
+            if(direction == "Left"){
+                console.log("Left: " + (xAxis - shipsDictionary[shipType]).stringValue);
+                endPoint = yAxis + (xAxis - shipsDictionary[shipType]).stringValue;
+            }
+            else if(direction == "Right"){
+                console.log("Direction: " + direction);
+                console.log("Right: " + (xAxis + shipsDictionary[shipType]) + "\nxAxis: " + xAxis + "\nshipsDictionary[shipType]: " + shipsDictionary[shipType]);
+                endPoint = yAxis.stringValue + (xAxis + shipsDictionary[shipType]).stringValue;
+            }
+            else{
+                console.log("Else 2");
+            }
+        }
+        else{
+            console.log("Else 1");
         }
 
-        var shipNum = 0;
+        console.log("endpoint: " + endPoint);
 
-        var query = require('cli-interact').getYesNo;
-        var answer = query('Is it true');
-        console.log('you answered:', answer);
+        console.log(shipsArray.length);
 
-        shipsArray.splice(shipNum - 1, 1);
+        //shipsArray.splice((shipNum - 1), 1);
     }
 
 
